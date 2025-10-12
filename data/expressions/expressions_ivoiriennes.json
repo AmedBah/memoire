@@ -1,0 +1,116 @@
+{
+  "expressions": [
+    {
+      "expression": "c'est comment",
+      "signification": "comment vas-tu / comment ça va",
+      "contexte": "salutation"
+    },
+    {
+      "expression": "y a rien",
+      "signification": "de rien / pas de problème",
+      "contexte": "réponse"
+    },
+    {
+      "expression": "on se voit",
+      "signification": "au revoir",
+      "contexte": "salutation"
+    },
+    {
+      "expression": "c'est bon là",
+      "signification": "c'est d'accord / ok",
+      "contexte": "accord"
+    },
+    {
+      "expression": "je suis dans ça",
+      "signification": "je m'en occupe",
+      "contexte": "action"
+    },
+    {
+      "expression": "c'est pas facile",
+      "signification": "c'est difficile",
+      "contexte": "difficulté"
+    },
+    {
+      "expression": "on dit quoi",
+      "signification": "alors quoi de neuf",
+      "contexte": "salutation"
+    },
+    {
+      "expression": "c'est grave",
+      "signification": "c'est sérieux / important",
+      "contexte": "emphase"
+    },
+    {
+      "expression": "je suis bien",
+      "signification": "je vais bien",
+      "contexte": "état"
+    },
+    {
+      "expression": "on fait comment",
+      "signification": "que faire / comment procéder",
+      "contexte": "question"
+    },
+    {
+      "expression": "je prends",
+      "signification": "j'accepte / je comprends",
+      "contexte": "compréhension"
+    },
+    {
+      "expression": "c'est chaud",
+      "signification": "c'est compliqué / difficile",
+      "contexte": "difficulté"
+    },
+    {
+      "expression": "deh",
+      "signification": "donc / alors",
+      "contexte": "particule"
+    },
+    {
+      "expression": "eh là",
+      "signification": "vraiment / c'est vrai",
+      "contexte": "confirmation"
+    },
+    {
+      "expression": "on va gérer",
+      "signification": "on va s'en occuper",
+      "contexte": "assurance"
+    },
+    {
+      "expression": "c'est correct",
+      "signification": "c'est bien / ok",
+      "contexte": "accord"
+    },
+    {
+      "expression": "je suis là",
+      "signification": "je suis disponible",
+      "contexte": "disponibilité"
+    },
+    {
+      "expression": "on est ensemble",
+      "signification": "on est d'accord / solidaires",
+      "contexte": "accord"
+    },
+    {
+      "expression": "ça va aller",
+      "signification": "tout ira bien",
+      "contexte": "réassurance"
+    },
+    {
+      "expression": "je t'ai compris",
+      "signification": "j'ai compris",
+      "contexte": "compréhension"
+    }
+  ],
+  "abreviations": {
+    "stp": "s'il te plaît",
+    "svp": "s'il vous plaît",
+    "pq": "pourquoi",
+    "pcq": "parce que",
+    "tkt": "ne t'inquiète pas",
+    "mtn": "maintenant",
+    "bjr": "bonjour",
+    "bsr": "bonsoir",
+    "cv": "ça va",
+    "cc": "coucou"
+  }
+}

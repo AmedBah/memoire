@@ -1,0 +1,188 @@
+{
+  "MTN": {
+    "nom_complet": "MTN Mobile Money",
+    "description": "Leader du marché de mobile money en Côte d'Ivoire avec la plus grande couverture réseau.",
+    "format_identifiant": {
+      "type": "alphanumérique",
+      "pattern": "MP suivi de 10 chiffres (pour envoi)",
+      "longueur": "12 caractères",
+      "exemple": "MP1234567890"
+    },
+    "limites_transaction": {
+      "minimum": 100,
+      "maximum": 1500000,
+      "quotidien": 3000000,
+      "devise": "FCFA"
+    },
+    "frais": {
+      "pourcentage": "1-2%",
+      "minimum": 25,
+      "maximum": 500,
+      "devise": "FCFA"
+    },
+    "prefixes_telephone": [
+      "05",
+      "06",
+      "07"
+    ],
+    "compatible_avec": [
+      "Orange",
+      "Moov",
+      "Wave",
+      "Trésor Money"
+    ],
+    "informations_supplementaires": {
+      "disponibilite": "24h/24, 7j/7",
+      "points_service": "Plus de 50 000 points de service",
+      "particularites": "Permet aussi les paiements marchands et retraits"
+    }
+  },
+  "Orange": {
+    "nom_complet": "Orange Money",
+    "description": "Service de mobile money d'Orange CI, avec une forte présence urbaine.",
+    "format_identifiant": {
+      "type": "alphanumérique",
+      "pattern": "EFB suivi de 10 chiffres",
+      "longueur": "13 caractères",
+      "exemple": "EFB1234567890"
+    },
+    "limites_transaction": {
+      "minimum": 100,
+      "maximum": 1000000,
+      "quotidien": 2000000,
+      "devise": "FCFA"
+    },
+    "frais": {
+      "pourcentage": "1-2%",
+      "minimum": 25,
+      "maximum": 500,
+      "devise": "FCFA"
+    },
+    "prefixes_telephone": [
+      "07",
+      "08",
+      "09"
+    ],
+    "compatible_avec": [
+      "MTN",
+      "Moov",
+      "Wave",
+      "Trésor Money"
+    ],
+    "informations_supplementaires": {
+      "disponibilite": "24h/24, 7j/7",
+      "points_service": "Plus de 30 000 points de service",
+      "particularites": "Intégration avec Orange Bank pour services bancaires"
+    }
+  },
+  "Moov": {
+    "nom_complet": "Moov Money",
+    "description": "Service de mobile money de Moov Africa, troisième opérateur en Côte d'Ivoire.",
+    "format_identifiant": {
+      "type": "alphanumérique",
+      "pattern": "MRCH suivi de 8 chiffres",
+      "longueur": "12 caractères",
+      "exemple": "MRCH12345678"
+    },
+    "limites_transaction": {
+      "minimum": 100,
+      "maximum": 750000,
+      "quotidien": 1500000,
+      "devise": "FCFA"
+    },
+    "frais": {
+      "pourcentage": "1-2%",
+      "minimum": 25,
+      "maximum": 500,
+      "devise": "FCFA"
+    },
+    "prefixes_telephone": [
+      "01",
+      "02",
+      "03"
+    ],
+    "compatible_avec": [
+      "MTN",
+      "Orange",
+      "Wave",
+      "Trésor Money"
+    ],
+    "informations_supplementaires": {
+      "disponibilite": "24h/24, 7j/7",
+      "points_service": "Plus de 20 000 points de service",
+      "particularites": "Tarifs compétitifs pour petites transactions"
+    }
+  },
+  "Wave": {
+    "nom_complet": "Wave Mobile Money",
+    "description": "Opérateur récent avec des tarifs attractifs et une application mobile moderne.",
+    "format_identifiant": {
+      "type": "numérique",
+      "pattern": "Numéro de téléphone (10 chiffres)",
+      "longueur": "10 caractères",
+      "exemple": "0512345678"
+    },
+    "limites_transaction": {
+      "minimum": 100,
+      "maximum": 500000,
+      "quotidien": 1000000,
+      "devise": "FCFA"
+    },
+    "frais": {
+      "pourcentage": "1-2%",
+      "minimum": 25,
+      "maximum": 500,
+      "devise": "FCFA"
+    },
+    "prefixes_telephone": [
+      "05"
+    ],
+    "compatible_avec": [
+      "MTN",
+      "Orange",
+      "Moov",
+      "Trésor Money"
+    ],
+    "informations_supplementaires": {
+      "disponibilite": "24h/24, 7j/7",
+      "points_service": "Réseau en développement",
+      "particularites": "Frais très compétitifs, interface utilisateur moderne"
+    }
+  },
+  "Trésor Money": {
+    "nom_complet": "Trésor Money",
+    "description": "Service de mobile money récent avec des offres attractives.",
+    "format_identifiant": {
+      "type": "numérique",
+      "pattern": "Numéro de téléphone (10 chiffres)",
+      "longueur": "10 caractères",
+      "exemple": "0512345678"
+    },
+    "limites_transaction": {
+      "minimum": 100,
+      "maximum": 500000,
+      "quotidien": 1000000,
+      "devise": "FCFA"
+    },
+    "frais": {
+      "pourcentage": "1-2%",
+      "minimum": 25,
+      "maximum": 500,
+      "devise": "FCFA"
+    },
+    "prefixes_telephone": [
+      "05"
+    ],
+    "compatible_avec": [
+      "MTN",
+      "Orange",
+      "Moov",
+      "Wave"
+    ],
+    "informations_supplementaires": {
+      "disponibilite": "24h/24, 7j/7",
+      "points_service": "Réseau en développement",
+      "particularites": "Service récent avec offres attractives"
+    }
+  }
+}

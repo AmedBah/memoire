@@ -1,0 +1,103 @@
+[
+  {
+    "id": 1,
+    "categorie": "general",
+    "question": "Qu'est-ce qu'EasyTransfert ?",
+    "reponse": "EasyTransfert est une application mobile qui vous permet d'envoyer de l'argent facilement entre différents opérateurs de mobile money en Côte d'Ivoire (MTN, Orange, Moov, Wave, Trésor Money). Plus besoin de passer par plusieurs applications !",
+    "mots_cles": [
+      "easytransfert",
+      "application",
+      "definition",
+      "mobile money"
+    ]
+  },
+  {
+    "id": 2,
+    "categorie": "operateurs",
+    "question": "Quels sont les opérateurs compatibles avec EasyTransfert ?",
+    "reponse": "EasyTransfert supporte 5 opérateurs de mobile money : MTN Mobile Money, Orange Money, Moov Money, Wave et Trésor Money. Vous pouvez envoyer de l'argent entre n'importe lesquels de ces opérateurs.",
+    "mots_cles": [
+      "operateurs",
+      "compatible",
+      "mtn",
+      "orange",
+      "moov",
+      "wave",
+      "tresor money"
+    ]
+  },
+  {
+    "id": 3,
+    "categorie": "utilisation",
+    "question": "Comment faire un transfert avec EasyTransfert ?",
+    "reponse": "1) Ouvrez l'application EasyTransfert\n2) Sélectionnez l'opérateur d'envoi et l'opérateur de réception\n3) Entrez le montant et le numéro du bénéficiaire\n4) Confirmez les informations\n5) Entrez votre code PIN\n6) Le transfert est effectué en quelques secondes !",
+    "mots_cles": [
+      "transfert",
+      "envoi",
+      "comment",
+      "etapes",
+      "procedure"
+    ]
+  },
+  {
+    "id": 4,
+    "categorie": "tarifs",
+    "question": "Quels sont les frais de transfert ?",
+    "reponse": "Les frais varient entre 1% et 2% du montant transféré, avec un minimum de 25 FCFA et un maximum de 500 FCFA. Les frais exacts dépendent de l'opérateur d'envoi et du montant.",
+    "mots_cles": [
+      "frais",
+      "tarifs",
+      "cout",
+      "prix"
+    ]
+  },
+  {
+    "id": 5,
+    "categorie": "limites",
+    "question": "Quelles sont les limites de transfert ?",
+    "reponse": "Les limites varient selon l'opérateur :\n- Minimum : généralement 100 FCFA\n- Maximum : entre 500 000 et 1 500 000 FCFA par transaction\n- Maximum quotidien : entre 1 000 000 et 3 000 000 FCFA\nVérifiez les limites spécifiques de votre opérateur dans l'application.",
+    "mots_cles": [
+      "limites",
+      "minimum",
+      "maximum",
+      "montant"
+    ]
+  },
+  {
+    "id": 6,
+    "categorie": "problemes",
+    "question": "Que faire si mon transfert a échoué ?",
+    "reponse": "Si votre transfert a échoué :\n1) Vérifiez votre solde\n2) Assurez-vous que le numéro du bénéficiaire est correct\n3) Vérifiez votre connexion internet\n4) Réessayez dans quelques minutes\n5) Si le problème persiste, contactez le service client EasyTransfert au 2522018730 avec votre identifiant de transaction.",
+    "mots_cles": [
+      "echec",
+      "probleme",
+      "erreur",
+      "aide"
+    ]
+  },
+  {
+    "id": 7,
+    "categorie": "securite",
+    "question": "EasyTransfert est-il sécurisé ?",
+    "reponse": "Oui ! EasyTransfert utilise les mêmes normes de sécurité que les banques. Vos données sont cryptées, et chaque transaction nécessite votre code PIN personnel. Ne partagez jamais votre code PIN avec personne.",
+    "mots_cles": [
+      "securite",
+      "code pin",
+      "protection",
+      "confiance"
+    ]
+  },
+  {
+    "id": 8,
+    "categorie": "support",
+    "question": "Comment contacter le service client ?",
+    "reponse": "Vous pouvez contacter le service client EasyTransfert :\n- Par téléphone : 2522018730\n- Dans l'application : Menu > Aide > Contacter le support\n- Par email : support@easytransfert.ci\nNotre équipe est disponible 24h/24 et 7j/7 pour vous aider.",
+    "mots_cles": [
+      "contact",
+      "support",
+      "aide",
+      "service client",
+      "telephone"
+    ]
+  }
+]
