@@ -5,6 +5,7 @@ Ce dépôt implémente trois architectures expérimentales pour un assistant con
 ## 📋 Table des Matières
 
 - [Vue d'ensemble](#vue-densemble)
+- [🚀 Utilisation sur Google Colab Pro](#-utilisation-sur-google-colab-pro)
 - [Architecture 1: Agent Simple (Baseline)](#architecture-1-agent-simple-baseline)
 - [Architecture 2: RAG Standard](#architecture-2-rag-standard)
 - [Architecture 3: RAG-Agentique](#architecture-3-rag-agentique)
@@ -29,6 +30,48 @@ EasyTransfert permet des transferts d'argent inter-opérateurs entre :
 - Moov Money
 - Wave
 - Trésor Money
+
+## 🚀 Utilisation sur Google Colab Pro
+
+**Tous les notebooks sont optimisés pour Google Colab Pro !**
+
+### Accès Rapide
+
+Chaque notebook dispose d'un badge "Open in Colab" pour un lancement en un clic :
+
+| Architecture | Notebook | Badge Colab |
+|-------------|----------|-------------|
+| Architecture 1 | Fine-tuning LoRA | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AmedBah/memoire/blob/main/notebooks/architecture_1/01_architecture_1_simple_agent_finetuning.ipynb) |
+| Architecture 2 | RAG Standard | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AmedBah/memoire/blob/main/notebooks/architecture_2/02_architecture_2_rag_standard.ipynb) |
+| Architecture 3 | RAG-Agentique | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AmedBah/memoire/blob/main/notebooks/architecture_3/03_architecture_3_rag_agentique.ipynb) |
+
+### Configuration Automatique
+
+Les notebooks incluent automatiquement :
+- ✅ **Détection d'environnement** : Colab vs Local
+- ✅ **Vérification GPU** : Type et mémoire disponible
+- ✅ **Montage Google Drive** : Pour données persistantes
+- ✅ **Clonage du repository** : Accès automatique aux données
+- ✅ **Chemins flexibles** : Fonctionnement sur Colab et en local
+
+### Runtimes Recommandés
+
+| Architecture | GPU Minimum | GPU Optimal | RAM | Durée |
+|-------------|-------------|-------------|-----|-------|
+| Architecture 1 | T4 (16 GB) | V100/A100 | High-RAM | 2-4h |
+| Architecture 2 | T4 (16 GB) | T4/V100 | Standard | 30-60min |
+| Architecture 3 | T4 (16 GB) | V100 | High-RAM | 1-2h |
+
+### Guide Complet
+
+Pour un guide détaillé sur l'utilisation de Colab Pro, consultez : **[COLAB_GUIDE.md](./COLAB_GUIDE.md)**
+
+Le guide couvre :
+- Configuration initiale et authentification
+- Gestion des données (Drive vs clonage)
+- Optimisation de la mémoire GPU
+- Résolution de problèmes courants
+- Bonnes pratiques et conseils
 
 ## 🏗️ Architecture 1: Agent Simple (Baseline)
 

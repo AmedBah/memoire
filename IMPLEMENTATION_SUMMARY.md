@@ -6,17 +6,37 @@
 
 ```
 memoire/
+├── data/                          # ✨ NOUVEAU: Sources de données organisées
+│   ├── conversations/             # Données conversationnelles
+│   │   ├── conversation_1000_finetune.jsonl
+│   │   └── Conversation_easybot.json
+│   ├── documents/                 # Documentation et logs
+│   │   ├── doc.txt.txt
+│   │   └── transaction_logs_sample.json
+│   ├── faqs/                      # Questions-réponses
+│   │   └── faq_easytransfert.json
+│   ├── operators/                 # Infos opérateurs
+│   │   └── operators_info.json
+│   ├── procedures/                # Procédures résolution
+│   │   └── procedures_resolution.json
+│   ├── expressions/               # Expressions ivoiriennes
+│   │   └── expressions_ivoiriennes.json
+│   └── README.md                  # Documentation complète
 ├── notebooks/
 │   ├── architecture_1/
-│   │   └── 01_architecture_1_simple_agent_finetuning.ipynb
+│   │   └── 01_architecture_1_simple_agent_finetuning.ipynb  # ✨ Adapté Colab
 │   ├── architecture_2/
-│   │   └── 02_architecture_2_rag_standard.ipynb
+│   │   └── 02_architecture_2_rag_standard.ipynb             # ✨ Adapté Colab
 │   ├── architecture_3/
-│   │   └── 03_architecture_3_rag_agentique.ipynb
+│   │   └── 03_architecture_3_rag_agentique.ipynb            # ✨ Adapté Colab
+│   ├── evaluation/
+│   │   └── 04_evaluation_comparative_architectures.ipynb    # ✨ Adapté Colab
 │   └── data_examples/
 │       └── data_sources_examples.ipynb
 ├── requirements.txt
-├── ARCHITECTURE_README.md
+├── ARCHITECTURE_README.md         # ✨ Mis à jour avec instructions Colab
+├── COLAB_GUIDE.md                 # ✨ NOUVEAU: Guide complet Colab Pro
+├── IMPLEMENTATION_SUMMARY.md
 ├── .gitignore
 └── [fichiers existants...]
 ```
@@ -175,19 +195,46 @@ Documentation complète:
 
 ---
 
-## 📊 Sources de Données Couvertes
+## 📊 Sources de Données Organisées
 
-### Existantes
-- ✅ `conversation_1000_finetune.jsonl` (3031 conversations)
-- ✅ `Conversation_easybot.json`
-- ✅ `doc.txt.txt` (documentation complète)
+### ✨ Nouvelle Structure `data/`
 
-### Créées dans les Notebooks
-- ✅ FAQ structurées (8 entrées)
-- ✅ Informations opérateurs (5 opérateurs complets)
-- ✅ Procédures de résolution (3 procédures détaillées)
-- ✅ Logs de transactions (format complet)
-- ✅ Expressions ivoiriennes (20+ expressions)
+Toutes les sources de données sont maintenant organisées dans le dossier `data/` avec des sous-dossiers thématiques :
+
+#### `data/conversations/` - Données Conversationnelles
+- ✅ `conversation_1000_finetune.jsonl` (3031 conversations, 5.4 MB)
+- ✅ `Conversation_easybot.json` (993 KB)
+- **Usage**: Fine-tuning Architecture 1, exemples RAG
+
+#### `data/documents/` - Documentation et Logs
+- ✅ `doc.txt.txt` (documentation complète, 64 KB)
+- ✅ `transaction_logs_sample.json` (20 transactions exemples)
+- **Usage**: Base de connaissances RAG, simulation vérification statut
+
+#### `data/faqs/` - Questions-Réponses
+- ✅ `faq_easytransfert.json` (8 entrées structurées)
+- **Catégories**: general, operateurs, utilisation, tarifs, limites, problemes, securite, support
+- **Usage**: Base ChromaDB, réponses rapides
+
+#### `data/operators/` - Informations Opérateurs
+- ✅ `operators_info.json` (5 opérateurs complets)
+- **Opérateurs**: MTN, Orange, Moov, Wave, Trésor Money
+- **Contenu**: Formats identifiants, limites, frais, compatibilités, préfixes téléphone
+- **Usage**: Outil Operator Info (Architecture 3), validation formats
+
+#### `data/procedures/` - Procédures de Résolution
+- ✅ `procedures_resolution.json` (3 procédures détaillées)
+- **Procédures**: Transaction échouée, mot de passe oublié, erreur numéro
+- **Format**: Étapes numérotées, informations requises, délais résolution
+- **Usage**: Guides étape par étape, base RAG
+
+#### `data/expressions/` - Expressions Ivoiriennes
+- ✅ `expressions_ivoiriennes.json` (20+ expressions et abréviations)
+- **Contenu**: Expressions locales avec signification et contexte
+- **Usage**: Entity Extractor, enrichissement linguistique
+
+### 📋 Documentation
+- ✅ `data/README.md` - Documentation complète de la structure des données
 
 ---
 
@@ -278,31 +325,88 @@ jupyter notebook notebooks/architecture_1/01_architecture_1_simple_agent_finetun
 
 ## 📝 Notes Importantes
 
-1. **Les notebooks sont prêts à être exécutés** mais nécessitent:
-   - GPU avec CUDA (recommandé)
-   - Authentification HuggingFace pour Llama 3.2
-   - 16-32 GB RAM
-   - Espace disque pour modèles (~6 GB)
+1. **✨ Les notebooks sont maintenant optimisés pour Google Colab Pro**:
+   - 🚀 Badge "Open in Colab" sur chaque notebook
+   - 🔧 Configuration automatique de l'environnement
+   - 💾 Gestion flexible des données (Drive ou clonage)
+   - ✅ Détection GPU et recommandations runtime
+   - 📖 Guide complet dans `COLAB_GUIDE.md`
 
-2. **Les données d'exemple** sont dans les notebooks mais peuvent être:
-   - Exportées en JSON pour réutilisation
-   - Enrichies avec vraies données EasyTransfert
-   - Augmentées pour améliorer performances
+2. **📁 Structure de données organisée**:
+   - Dossier `data/` avec sous-dossiers thématiques
+   - Chemins flexibles compatibles Colab et local
+   - Documentation complète dans `data/README.md`
+   - Tous les fichiers JSON générés et prêts à l'emploi
 
-3. **Le code respecte les spécifications** du document `doc.txt.txt`:
+3. **🎯 Exécution locale ou Colab**:
+   - **Colab**: Clonage automatique du repo ou utilisation de Drive
+   - **Local**: GPU avec CUDA (recommandé)
+   - **Authentification**: HuggingFace nécessaire pour Llama 3.2
+   - **Ressources**: 16-32 GB RAM, ~6 GB espace disque
+
+4. **📊 Le code respecte les spécifications** du document `doc.txt.txt`:
    - Chunking 512 tokens
    - Embedding paraphrase-multilingual-mpnet-base-v2
    - Formats identifiants corrects
    - Opérateurs et limites précises
    - Procédures de résolution détaillées
 
-4. **Les 3 architectures sont progressives**:
+5. **🔄 Les 3 architectures sont progressives**:
    - Arch 1 = Baseline simple
    - Arch 2 = Arch 1 + RAG
    - Arch 3 = Arch 2 + Capacités agentiques
 
 ---
 
+## 🎉 Nouveautés - Adaptation Google Colab Pro
+
+### ✨ Ce qui a été ajouté
+
+1. **Structure de données organisée** (`data/`)
+   - 6 sous-dossiers thématiques
+   - 9 fichiers de données structurés
+   - README.md complet avec documentation
+
+2. **Adaptation notebooks pour Colab**
+   - Badge "Open in Colab" sur tous les notebooks
+   - Configuration automatique d'environnement
+   - Détection GPU et recommandations
+   - Montage Google Drive
+   - Clonage automatique du repository
+   - Chemins de données flexibles
+
+3. **Documentation Colab**
+   - `COLAB_GUIDE.md` - Guide complet (12 KB)
+   - Instructions runtime par architecture
+   - Résolution de problèmes
+   - Optimisations mémoire GPU
+   - Bonnes pratiques
+
+4. **Mises à jour documentation**
+   - `ARCHITECTURE_README.md` - Section Colab ajoutée
+   - `IMPLEMENTATION_SUMMARY.md` - Structure mise à jour
+   - Badges Colab dans README
+
+### 🚀 Prochaines Étapes
+
+1. **Tester sur Colab Pro**
+   - Valider le fonctionnement de chaque notebook
+   - Vérifier les runtimes recommandés
+   - Tester avec différents types de GPU
+
+2. **Optimisations supplémentaires**
+   - Ajuster batch_size selon GPU
+   - Optimiser temps d'indexation ChromaDB
+   - Améliorer gestion mémoire
+
+3. **Enrichissement données**
+   - Ajouter plus de FAQs
+   - Compléter expressions ivoiriennes
+   - Augmenter données conversationnelles
+
+---
+
 **Date de création**: 2024-10-12  
-**Status**: ✅ Implémentation complète des 3 architectures  
-**Prochaine étape**: Exécution et validation des notebooks
+**Dernière mise à jour**: 2024-10-12  
+**Status**: ✅ Implémentation complète + Adaptation Colab Pro  
+**Prochaine étape**: Validation sur Google Colab Pro
