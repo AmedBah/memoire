@@ -1,0 +1,502 @@
+INTRODUCTION 
+
+Dans un contexte de digitalisation accélérée des services financiers en Afrique de l'Ouest, les fintechs spécialisées dans l'interopérabilité des transferts d'argent mobile sont confrontées à une croissance exponentielle du volume de données et d'interactions clients. Cette dynamique engendre une accumulation massive d'informations hétérogènes: conversations WhatsApp, emails, captures d'écran de transactions, reçus d'opérateurs et journaux applicatifs. Ces données, produites quotidiennement par les utilisateurs et les systèmes interconnectés, sont essentielles pour assurer un suivi précis des transactions, résoudre les incidents et maintenir la qualité de service. Toutefois, leur exploitation efficace demeure une tâche fastidieuse et chronophage, particulièrement pour les équipes de support client qui doivent réagir promptement face aux problèmes. L'identification des identifiants de transaction, la compréhension des flux entre opérateurs et l'extraction d'informations pertinentes se révèlent souvent complexes, notamment dans un contexte multilingue franco-africain.
+Soucieuse d'améliorer l'efficacité de son service client, KAYBIC AFRICA, entreprise ivoirienne innovante dans le domaine des services financiers digitaux, a choisi d'explorer les possibilités offertes par l'intelligence artificielle générative pour automatiser et renforcer la qualité de son support utilisateur. À travers sa solution phare EasyTransfert, pionnier dans les transferts inter-réseaux de mobile money (Wave, Orange, MTN, Moov), KAYBIC AFRICA fait face aux défis d'un support client encore largement manuel: délais de réponse variables, surcharge des agents et hétérogénéité des réponses. C'est dans cette optique que s'inscrit notre projet intitulé : « Mise en place d'un système conversationnel intelligent fondé sur l'IA générative en vue de l'automatisation intégrale du service client chez EasyTransfert ».
+Ce travail vise à concevoir un assistant conversationnel basé sur un grand modèle de langage (LLM), dont les réponses sont enrichies et contextualisées grâce à une base de connaissances vectorielle (ChromaDB), structurée à partir des FAQ, procédures, tickets historiques et règles métier d'EasyTransfert. L'objectif est de fournir un support intelligent, rapide et contextuel aux utilisateurs, disponible 24h/24 sur les canaux privilégiés (WhatsApp Business). Pour y parvenir, nous tenterons de répondre aux interrogations suivantes : Comment structurer et indexer efficacement les connaissances hétérogènes d'EasyTransfert pour optimiser la pertinence des réponses ? Quelle architecture combinant RAG (Retrieval-Augmented Generation) et approche agentique permet de garantir des réponses précises, conformes aux règles métier et traçables ? Comment intégrer l'agent conversationnel aux processus existants et en mesurer l'impact opérationnel sans perturber l'organisation ?
+La réponse à ces interrogations orientera la structuration de ce mémoire en trois grandes parties : la première partie pose le cadre théorique et analyse l'existant chez EasyTransfert (données, canaux, processus, typologies de requêtes), la deuxième partie détaille la conception technique (modèle de langage, RAG avec ChromaDB, architecture agentique, intégration multicanale, analyse des sentiments), et la troisième partie présente les résultats expérimentaux, l'évaluation des performances (métriques NLP et métier) et les perspectives d'évolution vers un service client entièrement automatisé.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PREMIÈRE PARTIE : GÉNÉRALITÉS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CHAPITRE I : ENVIRONNEMENT DE TRAVAIL
+I-	Présentation de la structure d’accueil 
+1.	Présentation générale de KayBic Africa
+KAYBIC AFRICA est une Startup ivoirienne innovante fondé en 2020 et spécialisée dans l'agrégation de services de paiement mobile en Afrique de l'Ouest. Elle offre une plateforme technologique avancée permettant aux entreprises et aux particuliers d'effectuer des transactions financières sécurisées et interopérables au sein de la zone CEDEAO. L'entreprise se distingue par sa capacité à connecter tous les principaux opérateurs de mobile money de la région via une API unifiée, simplifiant ainsi les processus de paiement pour ses partenaires et utilisateurs.
+	Parmi ses produits phares, EasyTransfert se distingue comme un service de transfert d’argent rapide et fiable, offrant à la fois aux particuliers et aux entreprises une solution simple pour effectuer des transactions financières multi-opérateurs.
+2.	Mission et Vision
+	La mission de KAYBIC AFRICA est de faciliter l’inclusion financière en Afrique de l’Ouest, en fournissant des solutions de paiement mobile accessibles, sécurisées et interopérables. Sa vision à long terme est d’interconnecter tous les systèmes de paiement existants afin de fluidifier les échanges financiers et promouvoir une économie numérique inclusive, où les services financiers sont accessibles à tous.
+	Dans ce cadre, EasyTransfert joue un rôle central, en incarnant l’engagement de KAYBIC AFRICA à simplifier les transactions et à améliorer l’expérience utilisateur, tout en ouvrant la voie à des innovations comme l’automatisation du service client via des systèmes intelligents. 
+3.	Produits et services
+KAYBIC AFRICA propose une gamme complète de services adaptés aux besoins des particuliers, des entreprises et des professionnels :
+•	EasyTransfert : application mobile permettant des transferts d’argent instantanés entre différents opérateurs de mobile money tels que ORANGE Money, MTN Mobile Money, MOOV Money, WAVE et Trésor Money. Cette solution permet de faciliter les transactions inter-opérateurs pour tous les utilisateurs. Elle constitue le pilier du service client digital de KAYBIC, sur lequel s’appuie la mise en place d’un système conversationnel intelligent pour automatiser le support client.
+•	Service Agrégateur : API unifiée permettant aux entreprises d’intégrer facilement les services de paiement mobile de différents opérateurs, facilitant ainsi les transactions multi-opérateurs et la gestion centralisée des flux financiers.
+•	Bulk Payment : solution de paiement de masse dédiée aux entreprises pour effectuer des paiements groupés, tels que le versement de salaires ou de primes, avec une fiabilité et une rapidité accrues.
+•	QR Pay : solution de paiement par QR Code compatible avec tous les opérateurs régionaux, offrant une méthode de paiement rapide, sécurisée et pratique pour les commerçants et leurs clients.
+•	Développement d’applications personnalisées : création de solutions sur mesure pour répondre aux besoins spécifiques des entreprises en matière de paiement mobile, incluant la gestion automatisée des interactions clients et l’intégration de technologies innovantes.
+II-	Présentation du projet  
+1.	Contexte du projet
+EasyTransfert est un produit phare de Kaybic Africa, une startup ivoirienne innovante spécialisée dans l’agrégation de services de paiement mobile en Afrique de l’Ouest. En tant que solution fintech pionnière, cette solution offre une alternative pratique, rapide, sécurisée pour les transferts d'argent entre les différents mobile money existant en Côte d'Ivoire.
+Le service client de EasyTransfert repose actuellement sur une gestion manuelle, ce qui entraîne des délais de réponse importants, une surcharge des agents et une incohérence dans la qualité du support.
+Le projet vise à mettre en place une architecture combinant la récupération d'informations pertinentes à partir de sources de données (logs, bases de données, documentation etc…) et la génération de réponses contextuelles adaptées, afin d'améliorer l'efficacité du service, de réduire la charge des agents et d’offrir une assistance plus rapide et cohérente aux utilisateurs.
+2.	Problématiques
+Afin de répondre efficacement aux défis actuels rencontrés par EasyTransfert en matière de gestion de son service client, il est essentiel de s’interroger sur les approches technologiques et organisationnelles les plus adaptées pour atteindre une automatisation intelligente et durable. Ce projet soulève ainsi plusieurs questionnements clés :
+Comment concevoir un assistant conversationnel intelligent capable d’automatiser efficacement le service client de EasyTransfert tout en garantissant la cohérence et la pertinence des réponses fournies ?
+Comment centraliser et exploiter les différentes sources d’informations internes (FAQ, bases de données, historiques de tickets) afin d’alimenter le modèle d’IA et d’assurer une compréhension fine des demandes des utilisateurs ?
+Comment intégrer une technologie fondée sur l’IA générative et le traitement automatique du langage naturel (NLP) dans l’écosystème existant de EasyTransfert, tout en maintenant la qualité du support et la satisfaction client ?
+Enfin, comment assurer une adoption fluide de cette solution par les équipes internes et les utilisateurs finaux afin d’en maximiser l’impact opérationnel et stratégique ?
+
+CHAPITRE II : ÉTUDE DU PROJET 
+Ce chapitre a pour objectif de présenter une analyse approfondie de l’environnement opérationnel de EasyTransfert, en mettant particulièrement l’accent sur le fonctionnement actuel de son service client et les limites rencontrées dans la gestion des requêtes utilisateurs. Il s’agira, dans un premier temps, d’étudier l’existant afin de comprendre les processus en place et les outils actuellement utilisés. Ensuite, le cahier des charges définira les besoins fonctionnels et techniques nécessaires à la conception du système conversationnel intelligent. Enfin, seront exposés les objectifs et les hypothèses de recherche qui guideront la mise en œuvre et l’évaluation de la solution proposée.
+
+I-	Étude de l’existant
+1.	Analyse du Processus Actuel
+	La gestion du service client chez EasyTransfert repose actuellement sur un ensemble de pratiques internes majoritairement manuelles et centralisées sur les agents du support. Ces derniers assurent la réception, le traitement et le suivi des requêtes émises par les utilisateurs à travers plusieurs canaux de communication : WhatsApp Business, Facebook Messenger, Manychat et par Email.
+Lorsqu’un client rencontre une difficulté liée à une transaction (erreur d’envoi, problème de réception, retard, ou question sur les frais ou les opérateurs pris en charge), il contacte directement le service client via l’un de ces canaux. Les agents de support collectent alors les informations nécessaires (numéro de téléphone, montant, opérateur concerné, référence de transaction, etc.) et effectuent des vérifications manuelles dans les outils internes ou via la plateforme d’administration de EasyTransfert.
+Les principales sources d’informations mobilisées dans ce processus sont :
+•	Les messages clients échangés sur les plateformes sociales (WhatsApp, Facebook, Manychat) ;
+•	Les bases de données transactionnelles, consultées pour vérifier l’état d’une opération;
+•	Les rapports journaliers et historiques de transactions, utilisés pour identifier les récurrences ou anomalies ;
+•	L’expérience des agents de support, qui repose largement sur leur connaissance empirique du système et des cas rencontrés.
+En matière d’outils, la gestion s’effectue essentiellement via les interfaces natives des plateformes de messagerie (WhatsApp Web, Messenger Business Suite, etc.), parfois appuyées par des outils bureautiques internes (fichiers Excel, captures d’écran ou suivis manuels).
+2.	Analyse de Solutions Alternatives
+L'analyse du processus actuel de gestion du service client met en évidence plusieurs limites :
+•	Dépendance élevée aux agents humains : Les agents sont sollicités pour chaque demande, ce qui entraîne des délais de réponse variables et une capacité limitée à traiter un grand volume de requêtes simultanément.
+•	Incohérence et variabilité des réponses : L'absence d'un système centralisé et l'utilisation de connaissances empiriques peuvent conduire à des réponses incohérentes ou inexactes.
+•	Traçabilité limitée : Le suivi des interactions et la génération de rapports sont rendus difficiles en raison de la dispersion des informations sur différentes plateformes.
+•	Surcharge progressive des agents : L'augmentation du nombre de clients et de demandes entraîne une pression accrue sur les agents, affectant la qualité du service.
+Ces défis sont également observés dans le secteur des fintechs en Afrique de l'Ouest. Une étude menée par MSC et Africa Fintech Forum en 2021 a révélé que près de la moitié du financement des fintechs en Afrique provenait de la Communauté Économique des États de l'Afrique de l'Ouest (CEDEAO), mettant en lumière la croissance rapide du secteur. Cependant, cette expansion s'accompagne de défis, notamment en matière de gestion du service client. 
+Pour répondre à ces défis, il est impératif de développer un système automatisé et intelligent capable de :
+•	Centraliser et exploiter efficacement les données provenant de tous les canaux de communication.
+•	Fournir des réponses cohérentes, rapides et personnalisées, réduisant ainsi la charge de travail des agents.
+•	Assurer une traçabilité complète des interactions, facilitant le suivi et l'analyse des performances.
+•	S'intégrer harmonieusement aux canaux existants et permettre un suivi statistique des interactions pour améliorer la qualité du service.
+Ces besoins sont essentiels pour maintenir la compétitivité de EasyTransfert dans un environnement fintech en pleine expansion et pour garantir une expérience client optimale.
+
+
+
+
+II-	Cahier des charges
+1.	Besoins fonctionnels
+Les besoins fonctionnels décrivent les fonctionnalités principales attendues du système afin de répondre efficacement aux objectifs fixés.
+
+Fonctionnalité	Description
+Base de connaissances interne (FAQ structurée)	Collecte et structuration d’un corpus limité (FAQ, tickets récurrents) pour alimenter le modèle.
+Recherche et génération de réponses automatiques	Intégration d’un petit modèle LLM ou API (ex. GPT, Mistral, etc.) pour générer des réponses à partir de la FAQ.
+Connexion à un canal unique (WhatsApp)	Intégration via API (WhatsApp Business) pour automatiser les échanges.
+Historique des conversations	Enregistrement des interactions (texte + métadonnées) pour analyse et suivi.
+Interface d’administration simple (console ou dashboard basique)	Suivi du nombre de requêtes traitées, des réponses automatiques, et des transferts vers un agent.
+
+2.	Besoins non fonctionnels
+Catégorie	Exigence
+Performance	Le système doit être capable de traiter simultanément au moins 100 requêtes clients sans dégradation des performances.
+Disponibilité	Le chatbot doit être disponible 24h/24 et 7j/7, avec un taux de disponibilité supérieur à 99 %.
+Sécurité et confidentialité	Les données clients doivent être traitées conformément aux normes RGPD et stockées de manière sécurisée (chiffrement des échanges et des bases de données).
+Scalabilité	L’architecture doit pouvoir être étendue pour prendre en charge de nouveaux canaux (Telegram, site web, etc.) sans refonte majeure.
+Interopérabilité	Le système doit pouvoir interagir avec les API internes (transaction, support, CRM) et externes (Meta, Twilio).
+Maintenabilité	Le code et la documentation doivent être clairs, modulaires et facilement maintenables par l’équipe technique.
+Ergonomie	L’interface d’administration doit être intuitive, accessible et adaptée à différents niveaux d’utilisateurs (agents, superviseurs, administrateurs).
+Mesurabilité	Les performances du modèle de langage et du moteur RAG doivent être évaluées selon des métriques telles que Recall@k, F1-score, MRR, BLEU, etc.
+
+3.	Objectifs
+	Objectif général:
+	L’objectif principal est de concevoir, implémenter et évaluer un assistant conversationnel intelligent basé sur le traitement automatique du langage naturel et l’IA générative, pour automatiser le service client de EasyTransfert.
+	Le projet couvrira la conception technique, l’intégration de modèle de langage dans une architecture adaptée, le traitement et la structuration des données, l’intégration multicanale, ainsi que l’analyse des sentiments pour améliorer la qualité des réponses et la priorisation des requêtes clients.
+
+	Objectifs spécifiques :
+•	Collecter et structurer les données internes (FAQ, tickets, historiques)
+•	Indexer ces données dans une base vectorielle (FAISS ou ChromaDB) et évaluer l'efficacité des recherches sémantiques à l’aide de métriques comme le Mean Reciprocal Rank (MRR), le Recall@k, le Precision@k etc...
+•	Exploiter des techniques avancées de NLP pour comprendre et générer des réponses précises et contextuelles
+•	Déployer un modèle de langage dans une architecture adaptée, afin d’améliorer la qualité et la pertinence des interactions conversationnelles
+•	Intégrer le système aux canaux de communication existants (WhatsApp Business, email)
+•	Intégrer un module d’analyse des sentiments pour adapter les réponses et prioriser les requêtes
+•	Mettre en place un tableau de bord pour le suivi des performances et de la satisfaction client
+•	Évaluer les performances globales du système (modèle de langage et moteur NLP) à l’aide de métriques standard et spécifiques à chaque méthode : précision, rappel, F1-score, taux d’automatisation, score de satisfaction, etc.
+
+4.	Planning
+
+
+Chapitre III : ÉTAT DE L’ART
+I-	Définitions et concepts clés 
+1.	L’Intelligence Artificielle (IA) 
+L'Intelligence Artificielle (IA) est une discipline scientifique visant à doter les systèmes informatiques de facultés cognitives analogues à celles de l'être humain, telles que l'apprentissage, la compréhension du langage, la résolution de problèmes ou la prise de décision. Reposant sur des mécanismes d'amélioration itérative par l'analyse de données, son champ d'application s'étend à des secteurs stratégiques comme la santé, la robotique, le commerce ou encore l'aéronautique. 
+2.	L'apprentissage machine (Machine Learning) 
+L'apprentissage automatique, ou Machine Learning, est un sous-domaine fondamental de l'intelligence artificielle qui dote les systèmes informatiques de la capacité d'apprendre sans être explicitement programmés pour chaque tâche. Son principe repose sur l'utilisation d'algorithmes qui analysent des ensembles de données pour identifier des schémas, faire des prédictions et améliorer leurs propres performances de manière itérative à mesure qu'ils sont exposés à de nouvelles informations.
+3.	Les neurones biologiques 
+L'architecture fondamentale du cerveau biologique repose sur un vaste réseau de cellules spécialisées, les neurones. Chaque neurone est structuré pour recevoir des signaux entrants, de nature électrique et chimique, via ses nombreuses dendrites. À la suite d’un traitement interne, il propage un signal de sortie le long de son axone. La communication interneuronale s'effectue au niveau de jonctions spécifiques, les synapses, où l'axone d'un neurone transmet l'information aux dendrites d'autres neurones. Ce cycle de transmission et de réception se répète à une échelle massive, constituant la base du traitement de l'information cérébrale.
+4.	Réseau Neuronal Artificiel (Artificial Neural Network)
+Inspirés de la neurobiologie, les réseaux de neurones artificiels modélisent le flux de l'information à travers un réseau de nœuds interconnectés. Le concept, popularisé dès 1943 par McCulloch et Pitts , repose sur une unité de calcul de base : le neurone artificiel. Celuici traite l'information selon une séquence précise, comme illustré à la figure 4. 
+Le processus débute par la réception de multiples signaux d'entrée (X₁, ..., Xₙ). Chacun de ces signaux est pondéré par un poids de connexion (wⱼ) qui simule la force synaptique. Ces entrées pondérées sont ensuite agrégées par une sommation pour former l'entrée net :  
+𝑛𝑒𝑡 =∑𝑛𝑗=1𝑤𝑗𝑥𝑗 
+Cette valeur agrégée est ensuite passée à travers une fonction de transfert non-linéaire f, qui détermine la sortie finale O du neurone : 
+𝑂 = 𝑓(𝑛𝑒𝑡) 
+Ce mécanisme de traitement distribué et l'ajustement des poids de connexion constituent le fondement de l'apprentissage et du fonctionnement des systèmes connexionnistes.
+5.	L’Apprentissage Profond (Deep Learning) 
+L’apprentissage profond ou le Deep Learning en anglais est un sous-domaine de l’apprentissage machine (machine Learning) qui se distingue par l’utilisation de réseaux de neurones dits « profonds ». Ces architectures sont composées de nombreuses couches de calcul interconnectées (souvent des dizaines, voire des centaines), contrairement aux réseaux de neurones « peu profonds » qui n’en comptent qu’une ou deux. La véritable force du Deep Learning réside dans la fonction de cette profondeur : elle permet au modèle d’apprendre de manière autonome une hiérarchie de caractéristiques (ou de représentations) de plus en plus abstraites, directement à partir des données brutes. Cette capacité constitue sa différence fondamentale avec les approches de Machine Learning dites « traditionnelles » (telles que les SVM ou les Forêts Aléatoires), qui requièrent une expertise humaine pour extraire et formater manuellement les caractéristiques pertinentes. Le Deep Learning automatise donc cette étape cruciale, ce qui lui permet de traiter des données extrêmement complexes comme les images, le son ou le langage naturel.
+Grâce à cette faculté d'apprentissage de représentations, le Deep Learning est devenu le moteur de la plupart des applications d'intelligence artificielle avancées. Il alimente aujourd'hui une vaste gamme de produits et de services du quotidien, incluant les assistants numériques, les télécommandes à contrôle vocal, la reconnaissance faciale, les systèmes de détection de fraude, le développement de véhicules autonomes et, plus récemment, l'essor de l'IA générative. 
+6.	Le Traitement du Langage Naturel  
+Le Traitement du Langage Naturel (TLN), également appelé traitement automatique des langues, est un domaine de l'intelligence artificielle qui se concentre sur l'interaction entre les ordinateurs et les langues humaines. Il permet aux machines de comprendre, interpréter et générer du langage humain, ce qui est utilisé dans diverses applications comme les chatbots, l'analyse des sentiments, la traduction automatique et la reconnaissance de la parole. Le TLN utilise le machine Learning pour révéler la structure et la signification du texte, permettant aux organisations d'analyser du texte et d'extraire des informations sur des personnes, des lieux et des événements. Les entreprises utilisent des outils de TLN pour traiter automatiquement des données textuelles et vocales, analyser l'intention ou le sentiment contenu dans les messages et répondre en temps réel aux communications humaines. Le TLN combine la linguistique informatique, le Machine Learning et des modèles de Deep Learning pour traiter le langage humain.
+7.	Les Grands Modèles de Langage (LLM) 
+	Les LLM reposent généralement sur des architectures de réseaux de neurones profonds connues sous le nom de “Transformers”, qui ont été introduites par Google en 2017. Les Transformers ont apporté une véritable révolution dans le traitement du langage naturel en améliorant la capacité à comprendre le contexte et à gérer des phrases longues de manière plus efficace. Ces architectures ont permis des avancées significatives en matière de compréhension et de génération de texte, ouvrant ainsi la voie à des modèles plus puissants et plus précis dans le domaine de l’IA.
+	L’architecture typique d’un LLM comprend une couche d’entrée, des couches cachées et une couche de sortie. La couche d’entrée reçoit les données textuelles en tant que séquence de mots ou de caractères. Chaque mot ou caractère est représenté sous forme de vecteur numérique, appelé “embedding”, qui capture les informations sémantiques et syntaxiques. Les couches cachées sont responsables du traitement et de l’apprentissage des informations. Elles utilisent des mécanismes tels que les réseaux de neurones récurrents (RNN) ou les transformers pour capturer les relations et les dépendances entre les mots dans le texte. Les RNN sont particulièrement adaptés pour prendre en compte le contexte séquentiel, tandis que les transformers se concentrent sur les relations globales entre les mots.
+	Enfin, la couche de sortie génère les prédictions ou les réponses en fonction des informations traitées. Elle peut être conçue pour effectuer diverses tâches, telles que la génération de texte, la classification, la traduction, etc.
+ 
+Figure 1: Architecture type d’un LLM
+8.	L’Intelligence Artificielle Generative
+L'Intelligence Artificielle (IA) Générative est une branche de l'IA qui se concentre sur la création de nouveaux contenus originaux, plutôt que sur la simple analyse ou classification de données existantes. Alors que l'IA traditionnelle identifie des schémas, l'IA générative utilise ces schémas appris pour produire du contenu inédit, qu'il s'agisse de texte, d'images, de musique, de code ou de données synthétiques. Elle s'appuie sur des modèles complexes, notamment les Grands Modèles de Langage (LLM) pour le texte ou les modèles de diffusion pour les images. Ces systèmes apprennent les structures et les caractéristiques des données d'entraînement pour ensuite générer des œuvres nouvelles qui en respectent le style et la cohérence. 
+9.	Les chatbots 
+Un chatbot est un programme informatique conçu pour simuler une conversation avec des utilisateurs humains, en particulier sur Internet. Il s'agit donc d'un robot conversationnel, capable d'interagir en langage naturel et en temps réel, répondre aux questions, proposer des solutions et services adaptés en fonction des requêtes.
+
+
+
+II-	Technologies et Méthodes pour les Agents conversationnels Intelligents 
+ 
+1.	Systèmes Basés sur des Règles et la reconnaissance de Mots-Clés 
+Historiquement, les premiers agents conversationnels (ou chatbots) reposaient sur des ensembles de règles prédéfinies et la reconnaissance de mots-clés. Les développeurs définissaient manuellement des paires de questions-réponses ou des arbres de décision pour guider la conversation. Si l'utilisateur employait des mots-clés spécifiques, le système déclenchait une réponse préprogrammée. 
+Comme tout système, il existe des avantages et des inconvenants. 
+Avantages : Simplicité de conception pour des scénarios limités ; prévisibilité des réponses, contrôle total sur le dialogue. 
+Inconvénients : Manque de flexibilité face à des formulations variées, incapacité à gérer des requêtes complexes ou imprévues ; maintenance lourde et coûteuse à mesure que la base de connaissances s'étend ; faible capacité de compréhension du contexte réel de la question. Pour un domaine technique comme une passerelle monétique ; la diversité des problèmes et des formulations rend cette approche rapidement obsolète. 
+2.	Apprentissage Automatique (Machine Learning) pour la Compréhension du Langage Naturel 
+L'avènement du Machine Learning, et plus particulièrement du Traitement du Langage Naturel (TLN), a permis des avancées significatives. Des techniques comme la classification d'intentions et l'extraction d'entités nommées ont permis aux agents de mieux comprendre la sémantique des requêtes utilisateurs. Des algorithmes comme les SVM (Support Vecteur Machine), Naive Bayes (Naïve Bayessienne), ou les premiers réseaux de neurones étaient entraînés sur des corpus de données étiquetées pour identifier l'intention derrière une question (exemple : "demande de statut d'une transaction", "problème de connexion API") et extraire les informations clés (ex : ID de transaction, nom de l'API) 
+•	Avantages : Meilleure compréhension des variations linguistiques par rapport aux systèmes à règles, capacité à généraliser à partir des données d'entraînement. 
+•	Inconvénients : Nécessité de corpus d'entraînement étiquetés conséquents et de qualité, difficulté à maintenir une conversation cohérente sur plusieurs tours, génération de réponses souvent limitée à des modèles prédéfinis ou à la sélection de réponses pré-écrites. La génération de réponses véritablement dynamiques et contextuelles reste un défi. 
+
+
+
+3.	Grands Modèles de Langage (LLM) Pré-entraînés (Finetuning)
+L'émergence des Grands Modèles de Langage (LLM) tels que GPT (Generative Pre-trained Transformer), LLaMA ou Mistral a marqué une révolution. Entraînés sur d'immenses quantités de texte, ces modèles démontrent des capacités impressionnantes de compréhension et de génération de langage naturel, leur permettant de tenir des conversations fluides, de résumer des textes, de répondre à des questions de connaissance générale, et même de générer du code. Comme Avantage et inconvénient : 
+•	Avantages : Capacités de compréhension et de génération de langage sans précédent, flexibilité pour s'adapter à divers styles de conversation, réduction du besoin de données d'entraînement étiquetées massives pour des tâches générales. 
+•	Inconvénients :Tendance à générer des informations plausibles mais incorrectes ou inventées, ce qui est critique dans un contexte d'assistance technique où la précision est primordiale, Les LLMs sont entraînés sur des données jusqu'à une certaine date et ne possèdent pas nativement les connaissances spécifiques à un domaine métier précis (comme les informations de transaction à récupérer) ni les informations les plus récentes, Il peut être difficile de savoir d'où provient une information générée par le LLM, rendant la vérification complexe, L'utilisation des LLMs les plus performants via des API peut engendrer des coûts, et l'hébergement de modèles open-source puissants nécessite des ressources matérielles importantes.  
+4.	Génération Augmentée par Récupération (RAG -Retrieval Augmented Generation) 
+Pour pallier les limitations des LLMs purs, notamment leur manque de connaissances spécifiques et leur tendance aux hallucinations, l'approche RAG a gagné en popularité Le principe est de coupler un LLM avec une base de connaissances externe. Lorsqu'une question est posée, un module de "retriever" recherche d'abord les informations les plus pertinentes dans la base de connaissances (souvent vectorisée). Ces informations sont ensuite fournies au LLM comme contexte pour qu'il génère une réponse ancrée et factuelle. 
+•	Avantages : les réponses sont basées sur des documents sources spécifiques ; permet d'intégrer facilement la documentation propre à Easytransfert et de la maintenir à jour sans réentraîner le LLM ; possibilité de citer les sources utilisées pour générer la réponse, augmentant la confiance et la vérifiabilité ; moins dépendant du réentraînement coûteux du LLM pour intégrer de nouvelles informations. 
+•	Inconvénients : qualité du retriever, La performance globale dépend fortement de la capacité du retriever à trouver les informations les plus pertinentes, nécessite la mise en place d’un pipeline d'indexation, de vectorisation et de recherche. 
+ 
+Figure 2: Fonctionnement du RAG
+5.	Agents LLM (Approches Agentiques) 
+Au-delà de la simple génération de texte, les recherches récentes explorent l'utilisation des LLM comme "cerveau" d'agents capables de raisonner, de planifier des actions, et d'utiliser des outils pour accomplir des tâches complexes. Un agent LLM peut décomposer un problème, décider d'utiliser un outil spécifique (comme une calculatrice, une API externe, ou même le module RAG lui-même), observer le résultat, et itérer jusqu'à la résolution. 
+•	Avantages : capacité à effectuer des tâches complexes multi-étapes ; peut interroger des bases de données, exécuter des scripts, ou appeler des API pour obtenir des informations en temps réel ou effectuer des actions ; adaptabilité accrue à des situations imprévues.
+•	Inconvénients : complexité de conception et de débogage ; risques d’insécurité accrus si l'agent a accès à des outils puissants ; peut nécessiter des LLMs plus puissants (et donc plus coûteux) pour un raisonnement efficace. 
+
+III-	Choix de l’approche 
+Compte tenu du contexte du service client de EasyTransfert où la rapidité, la fiabilité et la précision des réponses sont essentielles afin de garantir la satisfaction client, le choix de l’approche technologique doit répondre à plusieurs impératifs :
+•	éviter les erreurs critiques liées aux hallucinations des modèles de langage,
+•	intégrer la documentation interne, les Faqs et l’historique des interactions,
+•	s’adapter à une grande variété de requêtes (techniques, transactionnelles, ou liées aux canaux de communication),
+•	offrir un système évolutif et maintenable.
+Après l’étude des différentes approches existantes, trois architectures ont été retenues pour une étude comparative approfondie. Ce choix méthodologique permet d'évaluer progressivement l'apport de chaque composante technologique et de justifier empiriquement la solution finale adoptée.
+1.	Architecture 1 : Agent Simple 
+Cette première architecture repose sur un agent conversationnel basé sur un LLM (GPT-3.5 Turbo, Mistral-7B ou LLaMA-2) spécialement fine-tuned sur des données spécifiques au domaine de EasyTransfert. Le modèle est entraîné sur un corpus d’historique de conversations et de FAQ pour acquérir une connaissance spécialisée du service de transfert d'argent.
+Cette architecture constitue notre référence de base spécialisée pour l'étude comparative. Contrairement à un LLM générique, l'agent simple avec fine-tuning permet d'évaluer l'efficacité d'une approche d'adaptation par l'entraînement sur des données métier spécifiques. 
+
+2.	Architecture 2 : RAG (Retrieval-Augmented Generation)
+L'architecture RAG répond directement à la problématique centrale du projet : comment centraliser et exploiter les différentes sources d'informations internes (FAQ, bases de données, historiques de conversations) pour garantir la pertinence et la cohérence des réponses ? 
+Dans le contexte de EasyTransfert, cette approche permet d'ancrer les réponses dans la documentation officielle et les procédures validées, de réduire considérablement les hallucinations en fournissant au LLM un contexte factuel vérifié, d'assurer la traçabilité des sources d'information utilisées pour chaque réponse, et de maintenir le système à jour en enrichissant simplement la base vectorielle, sans nécessiter de réentraînement du modèle. Cette architecture améliore la véracité, la spécificité et la fiabilité des réponses, tout en conservant la fluidité conversationnelle des LLM. Elle constitue le standard actuel pour les systèmes de question-réponse en domaine spécialisé.
+
+3.	Architecture 3 : RAG-Agentique avec outils dynamiques
+
+Cette troisième architecture représente une évolution avancée du RAG standard en intégrant des capacités agentiques (agentic capabilities). Le système ne se contente plus de récupérer et générer, mais devient capable de raisonner sur les actions à entreprendre (utilisation du protocole ReAct - Reasoning + Acting, Yao et al., 2023), d'utiliser des outils dynamiques pour accéder à des informations en temps réel (base de données transactionnelle, API de vérification de statut), et d'orchestrer plusieurs étapes de traitement de manière autonome (analyse de sentiment, routage vers agent humain si nécessaire). Les composants additionnels incluent un module d'analyse des sentiments pour la détection de la frustration, urgence ou satisfaction client, un accès à la base de données transactionnelle pour la consultation de l'état réel d'une transaction (référence, montant, statut), un système de routage intelligent pour l'escalade automatique vers un agent humain en cas de requête complexe ou émotionnellement chargée, et un mécanisme de raisonnement pour la planification multi-étapes nécessaire à résoudre des requêtes complexes.
+Cette architecture répond à l'objectif d'automatisation intelligente et durable du service client d'EasyTransfert. Elle permet de traiter des requêtes complexes nécessitant l'accès à des données opérationnelles en temps réel (« Où en est mon transfert de 50 000 FCFA vers MTN ? »), d'adapter les réponses en fonction du contexte émotionnel détecté (client mécontent → ton empathique, escalade rapide), de prioriser les requêtes selon leur urgence et leur complexité, et d'améliorer continuellement le système en enregistrant les interactions et les décisions prises. Alors que l'Architecture 2 excelle dans la réponse à des questions factuelles basées sur la documentation, l'Architecture 3 ajoute une dimension opérationnelle et contextuelle indispensable pour un service client complet. Elle permet de passer d'un système de FAQ augmentée à un véritable assistant intelligent et autonome.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEUXIÈME PARTIE ÉTUDE: THÉORIQUE ET TECHNIQUE DU SYSTÈME
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CHAPITRE IV : COLLECTE ET PRÉPARATION DES DONNÉES  
+	Ce chapitre présente l’ensemble des méthodes et traitements appliqués à la collecte, au nettoyage et à la structuration des données utilisées pour le développement et l’évaluation des architectures d’agents conversationnels d’EasyTransfert.
+L’objectif de cette phase est de constituer un corpus textuel exploitable par les modèles de langage et d’assurer la qualité, la cohérence et la pertinence des données avant leur vectorisation et leur indexation dans le cadre de l’approche RAG (Retrieval-Augmented Generation).
+I-	Sources et nature des données 
+	Afin de permettre à l’agent conversationnel d’EasyTransfert de répondre de manière fiable et contextuelle aux demandes des utilisateurs, plusieurs sources internes et externes ont été identifiées et exploitées. Ces sources reflètent la diversité des interactions et des informations manipulées par le service client.
+1.	Corpus conversationnels issus du service client
+Ces données proviennent principalement des échanges entre les clients et les agents d’assistance sur les canaux WhatsApp Business.
+Elles représentent le cœur du corpus d’entraînement, car elles capturent les formulations réelles des utilisateurs, leurs problématiques fréquentes et les réponses apportées par les agents.
+Les messages sont exportés sous format JSON, comprenant les métadonnées suivantes :
+•	Identifiant de la conversation et du message,
+•	Rôle de l’émetteur (agent ou client),
+•	Timestamp,
+•	Contenu textuel du message,
+•	Catégorie de la requête (transaction, erreur, information générale, etc.).
+Ce jeu de données constitue une base riche mais non structurée, nécessitant un prétraitement approfondi.
+
+
+ 
+Figure : Structure des Conversations Collectées
+2.	Documentation technique et FAQ internes
+Une seconde source essentielle provient de la documentation interne d’EasyTransfert, comprenant :
+•	la FAQ (Foire aux questions) officielle,
+•	les procédures de résolution d’incidents,
+•	et les notes techniques utilisées par le support.
+Ces documents constituent une base de connaissances factuelle qui alimente la composante RAG. Leur contenu textuel est exploité pour fournir des extraits précis lors des recherches sémantiques, garantissant que les réponses générées par le modèle sont basées sur des sources vérifiées et à jour.
+3.	Documentation linguistique locale : expressions et abréviations ivoiriennes
+Dans le but d’adapter l’agent conversationnel au registre linguistique réel des utilisateurs ivoiriens, une base documentaire d’expressions et d’abréviations locales a été intégrée.
+Cette ressource, construite à partir d’un corpus linguistique collecté sur les réseaux sociaux, forums et conversations clients, contient des expressions idiomatiques, des tournures orales et des abréviations courantes en Côte d’Ivoire.
+4.	Considérations de confidentialité et de sécurité
+	Étant donné la nature sensible des données manipulées (transactions financières, identifiants utilisateurs, numéros de téléphone), des mécanismes d’anonymisation et de masquage ont été systématiquement appliqués. Toutes les opérations de traitement sont conformes aux bonnes pratiques de protection des données (RGPD). Les identifiants et données personnelles sont remplacés par des marqueurs standardisés tels que <PHONE>, <TRANSACTION_ID> ou <CUSTOMER_REF> afin de préserver la structure conversationnelle tout en supprimant les informations sensibles.
+II-	Prétraitement et structuration 
+	Après l'identification et la collecte des données, leur prétraitement et leur structuration sont essentiels pour l'agent conversationnel. Cette phase est cruciale pour le mécanisme RAG appliqué aux logs et à la documentation, visant à optimiser ces données pour la recherche sémantique et à définir l'interaction avec la base de données SQL.
+1.	Le Rôle Fondamental du Découpage en Segments (Chunking) dans une Architecture RAG
+Au cœur de l'approche RAG se trouve la capacité à fournir au grand modèle de langage des extraits d'information contextuels et pertinents issus d'une vaste base de connaissances. Étant donné que les LLMs ont une fenêtre de contexte limitée (c'est-à-dire une quantité maximale de texte qu'ils peuvent traiter en une seule fois), il est impossible de leur fournir l'intégralité de l’historique des conversations ou des manuels techniques volumineux pour chaque requête. 
+Le découpage en segments (chunking) est le processus qui consiste à diviser ces grandes sources de données textuelles en morceaux plus petits et gérables, appelés "chunks". Ces chunks présentent plusieurs avantages: 
+•	Adaptation à la Fenêtre de Contexte du LLM : Les chunks sont dimensionnés pour tenir dans la fenêtre de contexte du LLM, lui permettant de traiter efficacement l'information récupérée.
+•	Précision de la Recherche Sémantique : La vectorisation est effectuée au niveau de chaque chunk. Des chunks plus petits et sémantiquement cohérents permettent une recherche plus ciblée et des résultats plus pertinents. 
+•	Granularité de l'Information : le chunking permet de récupérer des passages spécifiques et pertinents plutôt que des documents entiers, ce qui améliore la concision des informations fournies au LLM.
+La stratégie de chunking est donc une décision de conception clé, visant à créer des segments sémantiquement cohérents, de taille appropriée, et potentiellement avec un chevauchement optimal pour préserver le contexte.
+
+
+2.	Nettoyage et Anonymisation des Données
+Les jeux de données issus des conversations clients, de la FAQ et des documents internes ont été soumis à une étape de nettoyage automatisée. Cette opération comprend :
+•	la suppression des caractères spéciaux, balises et artefacts d’encodage ;
+•	la correction de messages vides, tronqués ou dupliqués ;
+•	l’application d’un module d’anonymisation contextuelle spécifique au domaine FinTech, permettant de remplacer les informations sensibles (numéros de téléphone, identifiants de transaction, références clients) par des marqueurs génériques tels que <PHONE>, <TX_ID>, <USER_REF>.
+Cette anonymisation garantit la conformité au RGPD et permet l’exploitation sécurisée des données pour l’entraînement et l’inférence.
+3.	Structuration des Conversations
+Les conversations issues des canaux WhatsApp et autres plateformes sont converties en un format hiérarchique exploitable, conforme aux standards d’indexation et de recherche sémantique utilisés dans le cadre du RAG-Agentique. Chaque conversation est organisée selon la structure suivante :
+ 
+Cette organisation facilite l’extraction contextuelle des échanges entre le client et le support, tout en permettant à l’agent d’effectuer des recherches sémantiques ciblées dans les conversations passées. Elle garantit également la traçabilité des intentions, la segmentation des thèmes de requêtes (transaction, problème technique, information générale), et l’intégration fluide avec le pipeline de vectorisation et d’indexation.
+
+
+4.	Enrichissement Sémantique et Uniformisation Linguistique
+	Pour améliorer la cohérence lexicale entre les données formelles (FAQ, documentation) et les expressions informelles des clients, un dictionnaire d’expressions et d’abréviations ivoiriennes est intégré.
+	Ce corpus enrichit la base de connaissances de l’agent sans transformation du texte initial. Ainsi, lorsqu’une expression locale est détectée (“Bjr”, “ pq”, “ Nn merci”), elle est reliée à sa signification équivalente au moment de la recherche vectorielle, sans normalisation préalable du texte source.
+Cette approche favorise une compréhension contextuelle, tout en conservant la richesse linguistique propre au registre ivoirien.
+5.	Découpage en Segments (Chunking)
+	Le chunking permet de diviser les textes longs (FAQ, procédures internes, historiques de logs) en fragments de taille adaptée à la fenêtre contextuelle du modèle de langage.
+Les critères retenus sont :
+•	Taille : 512 tokens par chunk en moyenne, avec un chevauchement de 50 tokens ;
+•	Cohérence sémantique : regroupement des phrases liées par thème ;
+•	Conservation des métadonnées : chaque chunk garde des informations telles que la source, la catégorie ou la date.
+Ces segments constituent l’unité de base pour la vectorisation et la recherche sémantique.
+
+III-	Modélisation vectorielle et indexation 
+	L’étape suivante consiste à représenter les données textuelles sous une forme mathématique exploitable par les modèles de récupération augmentée (RAG). L’objectif est de permettre à l’agent de rechercher dynamiquement les informations pertinentes avant la génération de sa réponse.
+1.	Le Processus de Vectorisation (Embedding)
+Le processus de vectorisation, ou embedding, consiste à transformer les segments de texte (appelés chunks), qu’ils proviennent de la documentation, des FAQ ou des conversations, en vecteurs numériques de haute dimensiodn. Ces vecteurs, appelés embeddings, capturent la signification sémantique des textes : cela signifie que deux textes ayant un sens proche seront représentés par des vecteurs proches dans un espace vectoriel, même s’ils n’utilisent pas les mêmes mots.
+Il existe plusieurs types d’embeddings utilisés en NLP. Parmi les plus connus, on trouve :
+•	Les embeddings basés sur la fréquence, comme TF-IDF ou les matrices de cooccurrence, qui encodent la fréquence des mots mais manquent de compréhension contextuelle.
+•	Les word embeddings classiques de type Word2Vec (Skip-gram, CBOW), GloVe et FastText, qui apprennent des représentations denses des mots en se basant sur leur contexte local. FastText se distingue en prenant en compte la morphologie des mots via les sous-mots, ce qui est utile pour les langues avec de nombreuses variations morphologiques.
+•	Les embeddings contextuels, produits par des modèles récents de type Transformer comme BERT, RoBERTa, ou leurs variantes spécialisées telles que Sentence-BERT, qui génèrent des vecteurs en tenant compte du contexte précis dans lequel les mots apparaissent. Ces embeddings sont les plus adaptés aux tâches complexes de compréhension et de recherche sémantique.
+	Pour notre étude, les embeddings contextuels produits par des modèles Transformers sont privilégiés car ils offrent une meilleure capture du sens dans les interactions clients réelles, incluant souvent des tournures informelles ou spécifiques au domaine fintech d’EasyTransfert.  Par exemple, dans une conversation client, la phrase "Ma transaction a échoué" et "mon transfert d’argent n’est pas passé" seront représentées par des vecteurs reflétant leurs différences sémantiques avec précision Pour notre étude, nous avons choisi d’utiliser des modèles comme ceux disponibles sur Hugging Face (par exemple « sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 ») qui sont optimisés pour des langues multiples et adaptés aux moteurs de recherche semantic tels que la base vectorielle ChromaDB. Ainsi, le choix du modèle d’embedding conditionne directement la qualité des recherches sémantiques : des embeddings précis et contextuels permettent de retrouver les passages les plus pertinents dans la base documentaire et d’améliorer la pertinence des réponses générées par l’assistant conversationnel intelligent.
+2.	Sélection de ChromaDB comme base de données vectorielle	
+	ChromaDB est une base de données vectorielle open source permettant de stocker et d’interroger efficacement des vecteurs issus des modèles d’apprentissage automatique utilisés en traitement du langage naturel. Elle facilite la recherche rapide de documents proches sémantiquement d’une requête, grâce à des algorithmes de recherche de voisins de haute performance. Son fonctionnement en mémoire assure des temps d’accès très faibles, capital pour un assistant conversationnel en temps réel. De plus, ChromaDB propose une API simple, favorisant une intégration fluide dans les pipelines d’indexation et de recherche documentaires.
+	Le choix de ChromaDB pour EasyTransfert repose sur sa légèreté, sa facilité d’installation, son caractère open source, ainsi que sa compatibilité native avec les bibliothèques NLP courantes comme Hugging Face. Cette base combine performance, souplesse et contrôle total des données, qualités essentielles pour respecter les contraintes de sécurité et de confidentialité dans le secteur fintech. Son interface épurée permet également une maintenance simplifiée et une rapide montée en compétence des équipes techniques.
+	Comparée à d’autres solutions vectorielles telles que FAISS ou Pinecone, ChromaDB offre un excellent compromis entre performance et simplicité. FAISS, bien que très performant, demande plus de ressources et d’expertise pour une optimisation fine. Pinecone est un service hébergé moins flexible et potentiellement plus coûteux. ChromaDB, quant à elle, assure un déploiement local ou cloud avec un contrôle complet sur les données et une bonne scalabilité, tout en maintenant une rapidité de recherche adaptée aux volumes attendus. Ces avantages en font un choix judicieux dans le cadre du projet d’assistant conversationnel intelligent de EasyTransfert.
+
+CHAPITRE V : CONCEPTION DES ARCHITECTURES EXPÉRIMENTALES
+
+I-	Architecture 1 : Agent Conversationnel Simple (Baseline)
+1.	Présentation générale
+	L'Architecture 1 constitue notre solution de référence (baseline) pour l'évaluation comparative. Elle repose sur un modèle de langage de grande taille (Large Language Model - LLM) affiné spécifiquement sur le corpus conversationnel d'EasyTransfert. Cette approche privilégie la simplicité architecturale et l'efficacité computationnelle, en s'inspirant des méthodologies d'optimisation proposées par Unsloth pour l'entraînement rapide et économe en ressources des modèles de langage.
+Principe fondamental : Dans cette architecture, toutes les connaissances nécessaires au support client sont encodées directement dans les paramètres du modèle durant la phase de fine-tuning. Le modèle apprend à reconnaître les intentions des utilisateurs (transaction non aboutie, mot de passe oublié, erreur de numéro, etc.), à identifier les entités pertinentes (identifiants EasyTransfert, identifiants opérateurs, numéros de téléphone, montants) et à générer des réponses contextuelles appropriées sans recourir à des sources d'information externes.
+Le modèle encode dans sa mémoire paramétrique :
+•	Les patterns conversationnels observés dans les 10 000+ conversations historiques
+•	Les connaissances sur les cinq opérateurs mobiles (MTN, Orange, Moov, Wave, Trésor Money)
+•	Les procédures de résolution des problèmes fréquents (transaction échouée, remboursement)
+•	Les formats de réponse et le ton de communication empathique de la marque EasyTransfert
+•	Les règles métier (formats d'identifiants, compatibilités entre opérateurs)
+
+
+2.	Architecture technique et flux de traitement
+ 
+Figure 3: Architecture de l'Agent Conversationnel Simple
+
+Le flux de traitement se décompose en trois phases :
+Phase 1 - Préparation : La requête utilisateur subit un prétraitement (nettoyage des émojis, normalisation des accents, conversion en minuscules) puis est structurée selon le template de conversation Llama 3 avec balises système/utilisateur/assistant.
+Phase 2 - Inférence : Le modèle LLM quantifié en 4-bit traite la séquence tokenisée et génère la réponse token par token de manière autorégressive, avec une température de 0.7 pour équilibrer cohérence et diversité.
+Phase 3 - Finalisation : Les tokens générés sont reconvertis en texte naturel, formatés avec les émojis appropriés et structurés selon les conventions d'EasyTransfert.
+3.	Composants fondamentaux
+Le modèle choisi est Llama 3.2 3B Instruct qui est un modèle open-source de 3 milliards de paramètres offrant un compromis optimal entre performance conversationnelle et efficacité computationnelle pour notre cas d'usage. Ses caractéristiques clés incluent un support natif du français (essentiel pour la Côte d'Ivoire), une orientation instruction suivant les tours de conversation, et une empreinte mémoire réduite adaptée au déploiement sur infrastructure modeste.
+Pour adapter le modèle au domaine spécifique de EasyTransfert, nous utilisons la technique LoRA (Low-Rank Adaptation) qui permet un entraînement efficace en ne modifiant qu'un sous-ensemble de paramètres via des matrices de faible rang.
+ 
+Figure 4Principe de l'adaptation LoRA
+Configuration LoRA :
+•	Rang (r) : 16 - Dimension des matrices de faible rang
+•	Alpha (α) : 32 - Facteur de mise à l'échelle des adaptateurs
+•	Dropout : 0.05 - Régularisation contre le surapprentissage
+•	Modules cibles : Matrices Query/Key/Value des couches d'attention
+•	Paramètres entraînables : ~1% du modèle total (~30M sur 3B)
+Avantages : Entraînement 3-4× plus rapide qu'un fine-tuning complet, adaptateurs légers (~50 MB) contre 12 GB pour le modèle complet, fonctionnement sur GPU grand public (RTX 4090, A10).
+Le modèle utilise un template conforme au format Llama 3 Chat pour maintenir la cohérence. Ce prompt système encode les connaissances essentielles : rôle de l'agent, comportements attendus (empathie, mémorisation contextuelle), règles métier (formats d'identifiants par opérateur), et informations de contact pour escalade vers le service client humain (2522018730, disponible 24h/24 via WhatsApp).
+Le prompt intègre les directives critiques du système EasyTransfert :
+•	Mémorisation obligatoire : Ne jamais redemander une information déjà fournie
+•	Analyse d'images : Identifier méticuleusement les identifiants sur les captures d'écran
+•	Formats d'identifiants : EFB.* (EasyTransfert), MP* (Orange envoi), chiffres uniquement (MTN), MRCH*/CF* (Moov envoi), format variable souvent T* (Wave)
+•	Ton chaleureux : Utilisation d'émojis appropriés , mentions régulières d'EasyTransfert
+•	Conscience contextuelle : Pas de répétition des salutations, adaptation au niveau d'urgence de l'utilisateur
+
+
+II-	Architecture 2 : RAG Standard (Génération Augmentée par Récupération)
+1.	Présentation générale et principe du RAG
+L'Architecture 2 introduit un système de Génération Augmentée par Récupération (Retrieval-Augmented Generation - RAG) qui représente une évolution significative. Le principe fondamental consiste à séparer la capacité de raisonnement (portée par le LLM) de la base de connaissances factuelles (stockée dans une base vectorielle externe ChromaDB).
+Contrairement aux modèles purement génératifs qui s'appuient uniquement sur leurs paramètres pré-entraînés (mémoire paramétrique), le RAG permet de :
+	Récupérer des informations pertinentes à partir de sources de données actualisées
+	Augmenter le contexte du prompt avec ces informations factuelles vérifiées
+	Générer une réponse fondée sur ce contexte enrichi
+Cette séparation offre plusieurs avantages conceptuels : connaissances actualisables sans ré-entraînement (ajout de nouveaux documents dans ChromaDB), précision factuelle accrue (réponses ancrées dans des sources vérifiables), traçabilité (possibilité de citer les sources), et réduction drastique des hallucinations (le modèle s'appuie sur des faits récupérés).
+Application au contexte EasyTransfert : 
+La base vectorielle ChromaDB contient des documents segmentés (chunks) issus de :
+•	FAQ EasyTransfert officielles (50-100 paires question-réponse)
+•	Procédures opérationnelles de résolution (transaction échouée, remboursement, erreur de numéro)
+•	Documentation des cinq opérateurs (formats identifiants, compatibilités, limites de transaction)
+•	Conversations historiques anonymisées représentant des résolutions réussies (échantillons de 500-1000 échanges)
+•	Guides utilisateur et tutoriels de l'application
+
+
+
+
+
+2.	Architecture technique et flux RAG
+ 
+Figure 5Architecture complète du système RAG Standard
+Le flux de traitement RAG se décompose en deux phases principales :
+Phase de Récupération (~150-200ms) :
+•	La question utilisateur est vectorisée via le modèle d'embedding multilingue (768 dimensions)
+•	ChromaDB effectue une recherche de similarité cosinus sur les embeddings indexés
+•	Les 3 chunks les plus pertinents (score > 0.5) sont sélectionnés
+•	Le prompt est enrichi avec ces chunks + métadonnées 
+Phase de Génération (~2-3s) : 
+•	Le LLM reçoit le prompt augmenté (contexte + question)
+•	Génération conditionnée sur le contexte fourni avec instructions strictes (pas d'hallucination) 
+•	Post-traitement incluant les citations des sources utilisées
+3.	Composants fondamentaux
+	Module d'embedding et base vectorielle ChromaDB :
+Modèle de vectorisation : paraphrase-multilingual-mpnet-base-v2
+Ce modèle Sentence-Transformer produit des embeddings de 768 dimensions capturant la sémantique du texte. Ses caractéristiques clés : support de 50+ langues incluant français et anglais (essentiel pour le code-switching en Côte d'Ivoire), architecture MPNet (12 couches Transformer), normalisation L2 des vecteurs pour similarité cosinus, performance de ~2000 phrases/seconde sur CPU.
+Structure de la base vectorielle ChromaDB :
+
+
+
+
+	Stratégie de chunking adaptative :
+Les paramètres de chunking sont optimisés pour le contexte de EasyTransfert : taille maximale de 512 tokens (~400 mots français), chevauchement de 50 tokens (10%) pour éviter la perte de contexte aux frontières, séparateurs hiérarchiques (double saut de ligne, point, virgule). Chaque chunk est enrichi de métadonnées : catégorie (faq, procedure, operator_info, conversation), opérateur concerné (MTN, Orange, Moov, Wave, Tous), mots-clés extraits, date de création.
+4.	Format de prompt augmenté
+Le prompt RAG intègre le contexte récupéré de manière structurée. Ce format présente trois avantages clés : séparation visuelle claire entre contexte et question, métadonnées explicites pour traçabilité, instructions strictes contre les hallucinations.
+Le système prompt inclut :
+•	Section contexte récupéré : 3 documents numérotés avec scores de pertinence, contenus complets, sources et catégories
+•	Instructions critiques : Contraintes explicites (se baser UNIQUEMENT sur le contexte fourni, ne jamais inventer d'informations, citer les sources si pertinent, avouer l'absence d'information si nécessaire)
+•	Comportements attendus : Ton courtois et empathique, utilisation d'émojis appropriés, respect des directives de mémorisation contextuelle de EasyTransfert.
+
+III-	Architecture 3 : RAG-Agentique (Agent Augmenté par Outils)
+
+1.	Présentation générale et paradigme agentique
+L'Architecture 3 représente l'approche la plus sophistiquée, combinant les avantages du RAG (Architecture 2) avec des capacités agentiques : un système autonome capable de raisonner, de planifier et d'utiliser des outils externes pour résoudre des requêtes complexes multi-étapes typiques du support client EasyTransfert.
+L'aspect agentique confère au système plusieurs capacités avancées absentes des architectures précédentes :
+	Autonomie décisionnelle : L'agent détermine lui-même quelles actions entreprendre selon le contexte
+	Planification : Décomposition de problèmes complexes en sous-tâches séquentielles avec dépendances
+	Utilisation d'outils : Accès dynamique à APIs backend, bases de données transactionnelles, fonctions spécialisées
+	Raisonnement itératif : Cycle Pensée-Action-Observation répété jusqu'à résolution complète
+	Adaptation contextuelle : Ajustement du comportement selon les observations intermédiaires
+Paradigme ReAct (Reasoning + Acting) : L'architecture s'inspire du framework ReAct qui structure le raisonnement en cycles explicites :
+
+
+ 
+Figure 8 Architecture complète du système RAG-Agentique
+Le cycle ReAct fonctionne comme une machine à états :
+ 
+Figure 9Machine à états du cycle ReAct
+2.	Composants fondamentaux
+La toolbox comprend quatre outils métier encapsulant les fonctionnalités critiques d'EasyTransfert :
+	Outil 1 : RAG Retriever
+-	Recherche vectorielle dans ChromaDB (identique Architecture 2, encapsulé comme outil invocable).
+-	Paramètres : query (question), top_k (défaut 3), filters (catégorie, date, opérateur).
+-	Retour : Liste de chunks avec contenus, métadonnées, scores de pertinence.
+
+	Outil 2 : Operator Info
+-	Consulte base PostgreSQL contenant informations structurées sur les cinq opérateurs.
+-	Données : Nom complet, formats identifiants, compatibilités, frais de transaction, limites (min/max), préfixes numéros téléphone.
+	Outil 3 : Entity Extractor
+Extraction d'entités nommées via regex + règles métier EasyTransfert.
+Patterns reconnus :
+•	Identifiant EasyTransfert : EFB\.[A-Z0-9]+
+•	Identifiant MTN : Série de chiffres uniquement
+•	Identifiant Orange : MP[0-9]{10}
+•	Identifiant Moov : (MRCH|CF)[A-Z0-9]+
+•	Identifiant Wave : Variable (souvent débute par T)
+•	Numéros téléphone : (\+225)?[0-9]{8,10}
+•	Montants : [0-9]+\s?(FCFA|CFA|francs?)?
+•	Opérateurs : (MTN|Orange|Moov|Wave|Trésor\s?Money|Tremo)
+•	Retour : Dictionnaire avec listes d'entités extraites par catégorie.
+
+	Outil 4 : Conversation Memory
+Gère l'historique conversationnel pour maintenir le contexte multi-tours.
+Paramètres : user_id, action (get/update/search).
+Retour : Historique messages, contexte actuel, problèmes similaires passés.
+Module de planification (Planning)
+Pour les requêtes complexes multi-étapes, l'agent décompose la tâche en DAG (Directed Acyclic Graph) :
+
+
+
+
+
+
+
+
+
+
+

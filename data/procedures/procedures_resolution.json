@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "titre": "Transaction échouée mais débit effectué",
+    "categorie": "probleme_technique",
+    "niveau_gravite": "élevé",
+    "description": "Vous avez été débité mais le bénéficiaire n'a pas reçu l'argent.",
+    "etapes": [
+      {
+        "numero": 1,
+        "action": "Vérifier le statut",
+        "details": "Dans l'application, allez dans 'Historique' et vérifiez le statut de la transaction."
+      },
+      {
+        "numero": 2,
+        "action": "Noter les informations",
+        "details": "Notez l'identifiant de transaction (format: EFB..., MP..., MRCH..., etc.)"
+      },
+      {
+        "numero": 3,
+        "action": "Attendre 24h",
+        "details": "Dans la majorité des cas, l'argent est recrédité automatiquement sous 24h."
+      },
+      {
+        "numero": 4,
+        "action": "Contacter le support",
+        "details": "Si après 24h le problème persiste, contactez le 2522018730 avec votre identifiant de transaction."
+      }
+    ],
+    "informations_requises": [
+      "Identifiant de transaction",
+      "Montant",
+      "Opérateur d'envoi",
+      "Opérateur de réception",
+      "Date et heure",
+      "Capture d'écran si possible"
+    ],
+    "delai_resolution": "24-48 heures",
+    "note_importante": "Ne faites PAS de nouvelle transaction avant la résolution du problème."
+  },
+  {
+    "id": 2,
+    "titre": "Mot de passe oublié",
+    "categorie": "compte",
+    "niveau_gravite": "moyen",
+    "description": "Vous avez oublié votre code PIN EasyTransfert.",
+    "etapes": [
+      {
+        "numero": 1,
+        "action": "Ouvrir l'application",
+        "details": "Lancez EasyTransfert sur votre téléphone."
+      },
+      {
+        "numero": 2,
+        "action": "Cliquer sur 'Mot de passe oublié'",
+        "details": "Sur l'écran de connexion, sélectionnez 'Mot de passe oublié' ou 'Code PIN oublié'."
+      },
+      {
+        "numero": 3,
+        "action": "Vérification par SMS",
+        "details": "Un code de vérification sera envoyé par SMS (délai: 1-2 minutes)."
+      },
+      {
+        "numero": 4,
+        "action": "Entrer le code",
+        "details": "Saisir le code reçu dans l'application."
+      },
+      {
+        "numero": 5,
+        "action": "Créer nouveau mot de passe",
+        "details": "Créer un nouveau mot de passe sécurisé (minimum 8 caractères, avec lettres et chiffres recommandés)."
+      },
+      {
+        "numero": 6,
+        "action": "Confirmer",
+        "details": "Confirmer le nouveau mot de passe et se connecter."
+      }
+    ],
+    "informations_requises": [
+      "Numéro de téléphone enregistré",
+      "Accès aux SMS sur ce numéro"
+    ],
+    "delai_resolution": "Immédiat (5-10 minutes)",
+    "note_importante": "Assurez-vous d'utiliser le numéro de téléphone enregistré lors de la création du compte."
+  },
+  {
+    "id": 3,
+    "titre": "Erreur de numéro de destinataire",
+    "categorie": "erreur_utilisateur",
+    "niveau_gravite": "élevé",
+    "description": "Vous avez envoyé de l'argent au mauvais numéro.",
+    "etapes": [
+      {
+        "numero": 1,
+        "action": "Contacter immédiatement",
+        "details": "Appelez le service client au 2522018730 IMMÉDIATEMENT après avoir constaté l'erreur."
+      },
+      {
+        "numero": 2,
+        "action": "Bloquer la transaction",
+        "details": "Le support tentera de bloquer la transaction si elle n'est pas encore finalisée (rare)."
+      },
+      {
+        "numero": 3,
+        "action": "Ouvrir un dossier",
+        "details": "Un dossier de réclamation sera ouvert."
+      },
+      {
+        "numero": 4,
+        "action": "Fournir les preuves",
+        "details": "Vous devrez fournir toutes les informations sur la transaction."
+      },
+      {
+        "numero": 5,
+        "action": "Contact du bénéficiaire",
+        "details": "EasyTransfert contactera la personne ayant reçu l'argent par erreur."
+      },
+      {
+        "numero": 6,
+        "action": "Remboursement",
+        "details": "Si la personne accepte, le remboursement sera effectué. Sinon, procédure légale nécessaire."
+      }
+    ],
+    "informations_requises": [
+      "Identifiant EasyTransfert",
+      "Numéro correct",
+      "Numéro erroné",
+      "Montant",
+      "Captures d'écran si disponibles"
+    ],
+    "delai_resolution": "3-7 jours ouvrables",
+    "note_importante": "Les erreurs de numéro sont difficiles à résoudre. Toujours vérifier le numéro avant de confirmer!"
+  }
+]
