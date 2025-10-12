@@ -4,7 +4,47 @@
 
 Cette architecture repose sur un Large Language Model (LLM) fine-tuné spécifiquement pour le service client d'EasyTransfert. Le modèle combine les capacités de compréhension et de génération d'un LLM pré-entraîné avec une adaptation fine via LoRA (Low-Rank Adaptation) sur les données conversationnelles d'EasyTransfert.
 
-## Architecture Système
+## Diagramme d'architecture (Mermaid)
+
+```mermaid
+graph TB
+    A[Requête Utilisateur] --> B{Prétraitement}
+    B --> C[Nettoyage texte]
+    B --> D[Anonymisation RGPD]
+    B --> E[Normalisation Code-switching]
+    
+    C --> F[Construction Prompt]
+    D --> F
+    E --> F
+    
+    F --> G[System Prompt<br/>EasyTransfert Context]
+    G --> H[Tokenisation<br/>Llama 3.2 Tokenizer]
+    
+    H --> I[Llama 3.2 3B Instruct<br/>+ Adaptateurs LoRA<br/>r=16, alpha=32]
+    
+    I --> J{Stratégie de Génération}
+    J -->|Temperature=0.7| K[Sampling]
+    J -->|Top-p=0.9| K
+    
+    K --> L[Décodage]
+    L --> M[Post-traitement]
+    M --> N[Réponse Finale]
+    
+    style I fill:#f9f,stroke:#333,stroke-width:4px
+    style A fill:#bbf,stroke:#333,stroke-width:2px
+    style N fill:#bfb,stroke:#333,stroke-width:2px
+    style G fill:#ffd,stroke:#333,stroke-width:2px
+```
+
+**Flux de traitement**:
+1. **Prétraitement** : Nettoyage, anonymisation RGPD, normalisation linguistique
+2. **Prompting** : Construction du prompt avec contexte EasyTransfert
+3. **Tokenisation** : Conversion en tokens Llama 3.2 (max 2048)
+4. **Inférence** : Passage dans le modèle avec adaptateurs LoRA
+5. **Génération** : Sampling avec temperature 0.7
+6. **Post-traitement** : Formatage final de la réponse
+
+## Architecture Système (Vue détaillée)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

@@ -4,6 +4,43 @@
 
 Le prétraitement des données conversationnelles d'EasyTransfert est une étape cruciale qui conditionne la performance des deux architectures. Ce pipeline transforme les 3031 conversations brutes en données structurées exploitables par les modèles de Deep Learning et LLM.
 
+## Diagramme du Pipeline (Mermaid)
+
+```mermaid
+flowchart TD
+    A[Données Brutes<br/>3031 conversations] --> B[Étape 1: Nettoyage de Base]
+    
+    B --> C[Étape 2: Anonymisation RGPD]
+    C --> D[Étape 3: Normalisation Linguistique]
+    D --> E[Étape 4: Structuration Conversations]
+    E --> F[Étape 5: Tokenisation & Vectorisation]
+    F --> G[Étape 6: Formatage Spécifique]
+    G --> H[Étape 7: Split Train/Val/Test]
+    
+    H --> H1[Train: 80%]
+    H --> H2[Val: 15%]
+    H --> H3[Test: 5%]
+    
+    H1 --> I[Données Prêtes]
+    H2 --> I
+    H3 --> I
+    
+    style A fill:#ffd,stroke:#333,stroke-width:3px
+    style B fill:#ffe6e6
+    style C fill:#e6f3ff
+    style D fill:#e6ffe6
+    style E fill:#fff9e6
+    style F fill:#f3e6ff
+    style G fill:#ffe6f0
+    style H fill:#e6f9ff
+    style I fill:#bfb,stroke:#333,stroke-width:3px
+```
+
+**Références**:
+- RGPD Article 25: Protection des données dès la conception  
+- Aboa, A. L. (2011). Le nouchi, identité linguistique de la jeunesse ivoirienne
+- Guide CNIL sur la pseudonymisation
+
 ## Architecture du Pipeline
 
 ```
