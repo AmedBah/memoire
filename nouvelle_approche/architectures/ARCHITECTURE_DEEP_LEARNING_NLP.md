@@ -4,7 +4,79 @@
 
 Cette architecture adopte une approche modulaire classique de Deep Learning appliquée au NLP, combinant plusieurs composants spécialisés qui travaillent en pipeline. Contrairement à l'approche Agent LLM end-to-end, cette architecture décompose le problème en sous-tâches distinctes (classification d'intention, extraction d'entités, génération de réponse) gérées par des modèles spécialisés.
 
-## Architecture Système
+## Diagramme d'architecture (Mermaid)
+
+```mermaid
+graph TD
+    A[Requête Utilisateur] --> B[Prétraitement]
+    B --> C[CamemBERT<br/>Embeddings<br/>768 dim]
+    
+    C --> D[Module 1:<br/>Classification Intention<br/>BiLSTM + Attention]
+    C --> E[Module 2:<br/>NER<br/>BiLSTM-CRF]
+    C --> F[Module 3:<br/>Sentiment Analysis<br/>CamemBERT Fine-tuned]
+    
+    D --> G[Module 4:<br/>Dialogue State<br/>Tracking]
+    E --> G
+    F --> G
+    
+    G --> H{Stratégie de<br/>Génération}
+    
+    H -->|80% cas| I[Template-Based<br/>Generation]
+    H -->|15% cas| J[Retrieval-Based<br/>Generation]
+    H -->|5% cas| K[Seq2Seq<br/>Generation]
+    
+    I --> L[Post-traitement]
+    J --> L
+    K --> L
+    
+    L --> M[Réponse Finale]
+    
+    style D fill:#ffcccc,stroke:#333,stroke-width:2px
+    style E fill:#ccffcc,stroke:#333,stroke-width:2px
+    style F fill:#ccccff,stroke:#333,stroke-width:2px
+    style G fill:#ffffcc,stroke:#333,stroke-width:3px
+    style A fill:#bbf,stroke:#333,stroke-width:2px
+    style M fill:#bfb,stroke:#333,stroke-width:2px
+    style C fill:#ffd,stroke:#333,stroke-width:2px
+```
+
+**Flux modulaire**:
+1. **Prétraitement** : Pipeline identique à Architecture 1
+2. **Embeddings** : CamemBERT pour représentations contextuelles
+3. **Modules parallèles** :
+   - Classification d'intention (10 classes)
+   - Extraction d'entités (5 types)
+   - Analyse de sentiment (3 classes)
+4. **State Tracking** : Fusion des informations, tracking des slots
+5. **Génération** : Stratégie hybride selon complexité
+6. **Post-traitement** : Formatage et vérifications finales
+
+### Diagramme de pipeline de prétraitement (Mermaid)
+
+```mermaid
+flowchart LR
+    A[Texte Brut] --> B[Étape 1:<br/>Nettoyage de Base]
+    B --> C[Étape 2:<br/>Anonymisation RGPD]
+    C --> D[Étape 3:<br/>Normalisation Linguistique]
+    D --> E[Étape 4:<br/>Tokenisation]
+    E --> F[Étape 5:<br/>Vectorisation]
+    F --> G[Données Prêtes]
+    
+    B -.-> B1[Suppression caractères spéciaux<br/>Correction encodage UTF-8<br/>Filtrage doublons]
+    C -.-> C1[Masquage numéros téléphone<br/>Masquage IDs transaction<br/>Conformité RGPD]
+    D -.-> D1[Code-switching français-nouchi<br/>Correction orthographe<br/>Normalisation casse]
+    E -.-> E1[Tokenizer CamemBERT<br/>Padding/Truncation<br/>Attention masks]
+    F -.-> F1[Embeddings CamemBERT<br/>768 dimensions<br/>Contextualisés]
+    
+    style B fill:#ffe6e6
+    style C fill:#e6f3ff
+    style D fill:#e6ffe6
+    style E fill:#fff9e6
+    style F fill:#f3e6ff
+    style G fill:#bfb,stroke:#333,stroke-width:3px
+```
+
+## Architecture Système (Vue détaillée)
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
